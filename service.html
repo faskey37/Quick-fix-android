@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Services | QuickFix Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>QuickFix Pro - Mobile App</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     :root {
-      --primary: #4361ee;
+       --primary: #4361ee;
       --primary-dark: #3a56d4;
       --secondary: #3f37c9;
       --accent: #4895ef;
@@ -24,6 +25,8 @@
       --cleaning: #9d4edd;
       --appliance: #f3722c;
       --gray: #6c757d;
+      --light-gray: #f5f5f5;
+      --shadow: rgba(0, 0, 0, 0.05);
     }
     
     * {
@@ -33,939 +36,840 @@
     }
     
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      background-color: #f5f7ff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      background: var(--light);
       color: var(--dark);
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     
-    /* Header */
-    header {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Mobile Header */
+    .mobile-header {
+      background: var(--light);
+      padding: 1rem;
+      box-shadow: 0 2px 10px var(--shadow);
       position: sticky;
       top: 0;
       z-index: 1000;
+      border-bottom: 1px solid var(--border);
     }
     
-    .navbar {
+    .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
+      margin-bottom: 0.5rem;
     }
     
-    .logo {
+    .location {
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .profile-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .profile-btn:hover {
+      background: var(--border);
+    }
+    
+    .app-title {
       font-size: 1.5rem;
       font-weight: bold;
       color: var(--primary);
-      text-decoration: none;
+      text-align: center;
     }
     
-    .logo i {
-      font-size: 1.8rem;
+    /* Search Bar */
+    .search-container {
+      padding: 0 1rem 1rem;
+      background: var(--light);
     }
     
-    .nav-links {
+    .search-bar {
       display: flex;
-      gap: 2rem;
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s ease;
     }
     
-    .nav-links a {
+    .search-bar:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1);
+    }
+    
+    .search-bar i {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+    
+    .search-bar input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 1rem;
       color: var(--dark);
-      text-decoration: none;
+    }
+    
+    .search-bar input::placeholder {
+      color: var(--gray);
+    }
+    
+    /* Category Pills */
+    .categories {
+      padding: 1rem;
+      background: var(--light);
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .category-scroll {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .category-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .category-pill {
+      flex-shrink: 0;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
       font-weight: 500;
-      transition: color 0.3s ease;
+      border: 2px solid var(--border);
+      background: var(--light);
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
     
-    .nav-links a:hover {
+    .category-pill.active {
+      background: var(--primary);
+      color: var(--light);
+      border-color: var(--primary);
+    }
+    
+    .category-pill:not(.active):hover {
+      border-color: var(--primary);
       color: var(--primary);
+      background: var(--light-gray);
     }
     
-    .nav-links a.active {
-      color: var(--primary);
-      font-weight: 600;
-    }
-    
-    .auth-buttons {
+    /* Filter Bar */
+    .filter-section {
+      padding: 1rem;
+      background: var(--light);
+      margin-bottom: 0.5rem;
       display: flex;
-      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
     }
     
-    /* Page Header */
-    .page-header {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    
-    .page-header h1 {
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-    }
-    
-    .breadcrumbs {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
+    .results-count {
       font-size: 0.9rem;
-      opacity: 0.9;
+      color: var(--gray);
     }
     
-    .breadcrumbs a {
-      color: white;
-      text-decoration: none;
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--light);
+      color: var(--dark);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
     
-    .breadcrumbs .separator {
-      opacity: 0.7;
+    .filter-btn:hover {
+      background: var(--light-gray);
+      border-color: var(--primary);
     }
     
-    /* Services Section */
-    .services-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
+    /* Provider Cards */
+    .providers-container {
+      padding: 0 1rem;
     }
     
-    .section-title {
-      text-align: center;
-      margin-bottom: 3rem;
+    .provider-card {
+      background: var(--light);
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      box-shadow: 0 2px 8px var(--shadow);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .provider-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+    
+    .provider-card:active {
+      transform: scale(0.98);
+    }
+    
+    .provider-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
       position: relative;
     }
     
-    .section-title h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    .provider-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--light);
+      backdrop-filter: blur(10px);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px var(--shadow);
+      border: 1px solid var(--border);
     }
     
-    .section-title p {
+    .favorite-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: var(--light);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
       color: var(--gray);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    
+    .favorite-btn:hover {
+      background: var(--light-gray);
+    }
+    
+    .favorite-btn.active {
+      color: var(--danger);
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+    
+    .electrician-badge { color: var(--electrician); }
+    .plumber-badge { color: var(--plumber); }
+    .carpenter-badge { color: var(--carpenter); }
+    .ac-repair-badge { color: var(--ac-repair); }
+    .tutor-badge { color: var(--tutor); }
+    .beautician-badge { color: var(--beautician); }
+    
+    .provider-info {
+      padding: 1.25rem;
+    }
+    
+    .provider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+    
+    .provider-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .provider-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--success);
+      color: var(--light);
+      padding: 0.25rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .provider-category {
+      color: var(--gray);
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .provider-description {
+      font-size: 0.9rem;
+      color: var(--dark);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .provider-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .provider-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .provider-location {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--gray);
+      font-size: 0.8rem;
+    }
+    
+    .provider-availability {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--success);
+    }
+    
+    .provider-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+   
+    /* Loading Animation */
+    .loading {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--border);
+      border-top: 2px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Pull to Refresh */
+    .pull-refresh {
+      text-align: center;
+      padding: 1rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 375px) {
+      .provider-card {
+        margin-bottom: 0.75rem;
+      }
+      
+      .provider-info {
+        padding: 1rem;
+      }
+      
+      .provider-image {
+        height: 180px;
+      }
+    }
+    
+    /* Enhanced white theme styles */
+    .search-bar:focus-within {
+      background: var(--light);
+    }
+    
+    .category-pill:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    .provider-card:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    /* Subtle gradients for depth */
+    .mobile-header {
+      background: linear-gradient(135deg, var(--light) 0%, #fafafa 100%);
+    }
+    
+    
+
+     /* FIXED BOTTOM NAVIGATION */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    .nav-menu {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 0;
       max-width: 600px;
       margin: 0 auto;
     }
     
-    .services-filter {
+    .nav-item {
       display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-    }
-    
-    .filter-btn {
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 50px;
-      background: white;
-      color: var(--dark);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-    
-    .filter-btn:hover {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .filter-btn.active {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    
-    .service-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-    
-    .service-image {
-      height: 200px;
-      background-size: cover;
-      background-position: center;
-    }
-    
-    .service-content {
-      padding: 1.5rem;
-    }
-    
-    .service-category {
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 0.8rem;
-    }
-    
-    .electrician-badge {
-      background: rgba(114, 9, 183, 0.1);
-      color: var(--electrician);
-    }
-    
-    .plumber-badge {
-      background: rgba(67, 97, 238, 0.1);
-      color: var(--plumber);
-    }
-    
-    .carpenter-badge {
-      background: rgba(248, 150, 30, 0.1);
-      color: var(--carpenter);
-    }
-    
-    .ac-repair-badge {
-      background: rgba(46, 196, 182, 0.1);
-      color: var(--ac-repair);
-    }
-    
-    .tutor-badge {
-      background: rgba(6, 214, 160, 0.1);
-      color: var(--tutor);
-    }
-    
-    .beautician-badge {
-      background: rgba(247, 37, 133, 0.1);
-      color: var(--beautician);
-    }
-    
-    .cleaning-badge {
-      background: rgba(157, 78, 221, 0.1);
-      color: var(--cleaning);
-    }
-    
-    .appliance-badge {
-      background: rgba(243, 114, 44, 0.1);
-      color: var(--appliance);
-    }
-    
-    .service-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.8rem;
-    }
-    
-    .service-description {
-      color: var(--gray);
-      margin-bottom: 1.5rem;
-    }
-    
-    .service-meta {
-      display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    
-    .service-rating {
-      color: #ffc107;
-      font-size: 0.9rem;
-    }
-    
-    .service-price {
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-    
-    .service-price span {
-      font-size: 0.9rem;
-      font-weight: normal;
-      color: var(--gray);
-    }
-    
-    .service-cta {
-      width: 100%;
-      padding: 0.8rem;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    
-    .service-cta:hover {
-      background: var(--primary-dark);
-    }
-    
-    /* Why Choose Us Section */
-    .why-choose {
-      background: var(--light);
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 3rem;
-      flex-wrap: wrap;
-    }
-    
-    .feature {
-      flex: 1;
-      min-width: 250px;
-      max-width: 300px;
-      background: white;
-      padding: 2rem;
+      text-decoration: none;
+      color: #666;
+      padding: 8px 12px;
       border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .feature-icon {
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 1.5rem;
-    }
-    
-    /* FAQ Section */
-    .faq {
-      padding: 4rem 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .faq-item {
-      margin-bottom: 1rem;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    
-    .faq-question {
-      padding: 1.5rem;
-      background: white;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .faq-question:hover {
-      background: #f9f9f9;
-    }
-    
-    .faq-answer {
-      padding: 0 1.5rem;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
-      background: white;
-    }
-    
-    .faq-item.active .faq-answer {
-      padding: 0 1.5rem 1.5rem;
-      max-height: 500px;
-    }
-    
-    /* CTA Section */
-    .cta-section {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 4rem 2rem;
-      text-align: center;
-      margin-top: 3rem;
-    }
-    
-    .cta-section h2 {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .cta-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    
-    .btn {
-      padding: 0.8rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 500;
-      cursor: pointer;
       transition: all 0.3s ease;
-    }
-    
-    .btn-primary {
-      background: white;
-      color: var(--primary);
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .btn-outline {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-    }
-    
-    .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    
-    /* Footer */
-    footer {
-      background: var(--dark);
-      color: white;
-      padding: 4rem 2rem;
-    }
-    
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-    }
-    
-    .footer-column h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      padding-bottom: 0.5rem;
-    }
-    
-    .footer-column h3::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 50px;
-      height: 3px;
-      background: var(--primary);
-    }
-    
-    .footer-links {
-      list-style: none;
-    }
-    
-    .footer-links li {
-      margin-bottom: 0.8rem;
-    }
-    
-    .footer-links a {
-      color: #adb5bd;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .footer-links a:hover {
-      color: white;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    
-    .social-links a {
-      color: white;
-      font-size: 1.2rem;
-    }
-    
-    .copyright {
-      text-align: center;
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: #adb5bd;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      
-      .nav-links {
-        gap: 1rem;
-      }
-      
-      .services-filter {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-    .btn {
-      padding: 0.8rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 500;
+      min-width: 65px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      border: none;
-      text-decoration: none;
     }
     
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-    
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--primary);
+    .nav-item:hover, 
+    .nav-item.active {
       color: var(--primary);
+      background-color: rgba(67, 97, 238, 0.1);
+      transform: translateY(-2px);
     }
     
-    .btn-outline:hover {
-      background: rgba(67, 97, 238, 0.1);
+    .nav-item .material-icons {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    .nav-label {
+      font-size: 11px;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <nav class="navbar">
-      <a href="index.html" class="logo">
-        <i class="fas fa-tools"></i>
-        <span>QuickFix Pro</span>
-      </a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="service.html" class="active">Services</a>
-        <a href="provider.html">Providers</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <div class="header-top">
+      <div class="location">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Nagpur, Maharashtra</span>
       </div>
-      <div class="auth-buttons">
-  <a href="login.html" class="btn btn-outline">Login</a>
-  <a href="login.html" class="btn btn-primary">Sign Up</a>
-</div>
-    </nav>
+      <button class="profile-btn">
+        <i class="fas fa-user"></i>
+      </button>
+    </div>
+    <h1 class="app-title">QuickFix Pro</h1>
   </header>
 
-  <!-- Page Header -->
-  <section class="page-header">
-    <h1>Our Services</h1>
-    <div class="breadcrumbs">
-      <a href="index.html">Home</a>
-      <span class="separator">/</span>
-      <a href="services.html">Services</a>
+  <!-- Search Bar -->
+  <div class="search-container">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search services or professionals...">
     </div>
-  </section>
+  </div>
 
-  <!-- Services Section -->
-  <section class="services-container">
-    <div class="section-title">
-      <h2>Professional Services For All Your Needs</h2>
-      <p>Browse through our wide range of professional services and book with trusted experts</p>
+  <!-- Categories -->
+  <div class="categories">
+    <div class="category-scroll">
+      <div class="category-pill active">All</div>
+      <div class="category-pill">Electrician</div>
+      <div class="category-pill">Plumber</div>
+      <div class="category-pill">Carpenter</div>
+      <div class="category-pill">AC Repair</div>
+      <div class="category-pill">Tutor</div>
+      <div class="category-pill">Beautician</div>
     </div>
-    
-    <div class="services-filter">
-      <button class="filter-btn active" data-filter="all">All Services</button>
-      <button class="filter-btn" data-filter="home">Home Services</button>
-      <button class="filter-btn" data-filter="beauty">Beauty & Wellness</button>
-      <button class="filter-btn" data-filter="education">Education</button>
-      <button class="filter-btn" data-filter="other">Other Services</button>
-    </div>
-    
-    <div class="services-grid">
-      <!-- Electrician -->
-      <div class="service-card" data-category="home">
-        <div class="service-image" style="background-image: url('https://th.bing.com/th/id/OIP.pNXZC1hKyMieKBBszrx_bwHaD7?w=297&h=180&c=7&r=0&o=7&cb=iwp2&dpr=1.3&pid=1.7&rm=3');"></div>
-        <div class="service-content">
-          <span class="service-category electrician-badge">Electrician</span>
-          <h3 class="service-title">Electrical Repairs & Installations</h3>
-          <p class="service-description">Professional electrical services including wiring, lighting installation, and electrical repairs for your home or office.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.9 (124 reviews)
-            </div>
-            <div class="service-price">
-              $50 <span>/ hour</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-      
-      <!-- Plumber -->
-      <div class="service-card" data-category="home">
-        <div class="service-image" style="background-image: url('https://freedleplumbing.com/wp-content/uploads/2020/03/AdobeStock_199810981opt.jpg');"></div>
-        <div class="service-content">
-          <span class="service-category plumber-badge">Plumber</span>
-          <h3 class="service-title">Plumbing & Pipe Repairs</h3>
-          <p class="service-description">Expert plumbing solutions for leaks, pipe installations, bathroom fittings, and all your water system needs.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.8 (98 reviews)
-            </div>
-            <div class="service-price">
-              $70 <span>/ hour</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-      
-      <!-- Carpenter -->
-      <div class="service-card" data-category="home">
-        <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
-        <div class="service-content">
-          <span class="service-category carpenter-badge">Carpenter</span>
-          <h3 class="service-title">Furniture & Woodwork</h3>
-          <p class="service-description">Custom furniture, door installations, cabinet making, and all types of woodworking services.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.7 (87 reviews)
-            </div>
-            <div class="service-price">
-              $60 <span>/ hour</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-      
-      <!-- AC Repair -->
-      <div class="service-card" data-category="home">
-        <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
-        <div class="service-content">
-          <span class="service-category ac-repair-badge">AC Repair</span>
-          <h3 class="service-title">AC Installation & Maintenance</h3>
-          <p class="service-description">Professional air conditioning services including installation, repair, and regular maintenance.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.8 (76 reviews)
-            </div>
-            <div class="service-price">
-              $80 <span>/ service</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-      
-      <!-- Tutor -->
-      <div class="service-card" data-category="education">
-        <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80');"></div>
-        <div class="service-content">
-          <span class="service-category tutor-badge">Tutor</span>
-          <h3 class="service-title">Academic Tutoring</h3>
-          <p class="service-description">Personalized academic tutoring for all grade levels in math, science, languages, and more.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.9 (142 reviews)
-            </div>
-            <div class="service-price">
-              $30 <span>/ hour</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-      
-      <!-- Beautician -->
-      <div class="service-card" data-category="beauty">
-        <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80');"></div>
-        <div class="service-content">
-          <span class="service-category beautician-badge">Beautician</span>
-          <h3 class="service-title">Beauty & Spa Services</h3>
-          <p class="service-description">Professional beauty services at home including facials, waxing, makeup, and skincare treatments.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.8 (113 reviews)
-            </div>
-            <div class="service-price">
-              $45 <span>/ service</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-      
-      <!-- Cleaning -->
-      <div class="service-card" data-category="home">
-        <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
-        <div class="service-content">
-          <span class="service-category cleaning-badge">Cleaning</span>
-          <h3 class="service-title">Home & Office Cleaning</h3>
-          <p class="service-description">Thorough cleaning services for your home or office, including deep cleaning and regular maintenance.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.7 (89 reviews)
-            </div>
-            <div class="service-price">
-              $25 <span>/ hour</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-      
-      <!-- Appliance Repair -->
-      <div class="service-card" data-category="home">
-        <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
-        <div class="service-content">
-          <span class="service-category appliance-badge">Appliance Repair</span>
-          <h3 class="service-title">Appliance Maintenance</h3>
-          <p class="service-description">Repair and maintenance services for all home appliances including refrigerators, washers, and ovens.</p>
-          <div class="service-meta">
-            <div class="service-rating">
-              <i class="fas fa-star"></i> 4.6 (67 reviews)
-            </div>
-            <div class="service-price">
-              $65 <span>/ service</span>
-            </div>
-          </div>
-          <button class="service-cta">Book Now</button>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <!-- Why Choose Us Section -->
-  <section class="why-choose">
-    <div class="section-title">
-      <h2>Why Choose QuickFix Pro</h2>
-      <p>We're committed to providing the best service experience</p>
-    </div>
-    
-    <div class="features">
-      <div class="feature">
-        <div class="feature-icon">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <h3>Verified Professionals</h3>
-        <p>All our service providers are thoroughly vetted and background checked.</p>
-      </div>
-      
-      <div class="feature">
-        <div class="feature-icon">
-          <i class="fas fa-clock"></i>
-        </div>
-        <h3>Quick Response</h3>
-        <p>Most services can be scheduled same day or within 24 hours.</p>
-      </div>
-      
-      <div class="feature">
-        <div class="feature-icon">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3>Service Guarantee</h3>
-        <p>We stand behind our work with a 100% satisfaction guarantee.</p>
-      </div>
-      
-      <div class="feature">
-        <div class="feature-icon">
-          <i class="fas fa-dollar-sign"></i>
-        </div>
-        <h3>Transparent Pricing</h3>
-        <p>No hidden fees - know exactly what you'll pay upfront.</p>
-      </div>
-    </div>
-  </section>
+  <!-- Filter Section -->
+  <div class="filter-section">
+    <div class="results-count">24 professionals nearby</div>
+    <button class="filter-btn">
+      <i class="fas fa-filter"></i>
+      <span>Filter</span>
+    </button>
+  </div>
 
-  <!-- FAQ Section -->
-  <section class="faq">
-    <div class="section-title">
-      <h2>Frequently Asked Questions</h2>
-      <p>Find answers to common questions about our services</p>
-    </div>
-    
-    <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>How do I book a service?</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          <p>Booking a service is easy! Simply browse our services, select the one you need, choose your preferred date and time, and complete the booking process. You'll receive confirmation and service details immediately.</p>
-        </div>
+  <!-- Providers List -->
+  <div class="providers-container">
+    <!-- Electrician -->
+    <div class="provider-card" onclick="openProvider('provider.html')">
+      <div class="provider-image" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+        <span class="provider-badge electrician-badge">Electrician</span>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
       </div>
-      
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>Are your service providers licensed and insured?</span>
-          <i class="fas fa-chevron-down"></i>
+      <div class="provider-info">
+        <div class="provider-header">
+          <div class="provider-name">John Electrics</div>
+          <div class="provider-rating">
+            <i class="fas fa-star"></i> 4.9
+          </div>
         </div>
-        <div class="faq-answer">
-          <p>Yes, all our service providers are properly licensed and insured where required by law. We verify all credentials before allowing professionals to join our platform.</p>
+        <div class="provider-category">Licensed Electrical Services</div>
+        <div class="provider-description">
+          8+ years experience in residential and commercial electrical work. Specializing in wiring, lighting, and panel upgrades.
         </div>
-      </div>
-      
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>What payment methods do you accept?</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          <p>We accept all major credit cards, PayPal, and in some cases cash payments upon service completion. Online payments are processed securely through our platform.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>What if I need to cancel or reschedule?</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          <p>You can cancel or reschedule your appointment up to 24 hours before the scheduled time without penalty. Late cancellations may be subject to a fee depending on the service.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>How are service providers rated?</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          <p>After each completed service, customers are invited to rate their experience on a scale of 1-5 stars and provide feedback. These ratings help us maintain quality standards.</p>
+        <div class="provider-footer">
+          <div class="provider-details">
+            <div class="provider-location">
+              <i class="fas fa-map-marker-alt"></i> 2.5 km away
+            </div>
+            <div class="provider-availability">
+              <i class="fas fa-clock"></i> Available today
+            </div>
+          </div>
+          <div class="provider-price">₹850/hr</div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <h2>Ready to Book Your Service?</h2>
-    <p>Join thousands of satisfied customers who trust QuickFix Pro for their service needs</p>
-    <div class="cta-buttons">
-      <button class="btn btn-primary">Browse Services</button>
-      <button class="btn btn-outline">Become a Provider</button>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-column">
-        <h3>QuickFix Pro</h3>
-        <p>Your trusted platform for booking home services with verified professionals.</p>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <!-- Plumber -->
+    <div class="provider-card" onclick="openProvider('aqua-plumbing')">
+      <div class="provider-image" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+        <span class="provider-badge plumber-badge">Plumber</span>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+      <div class="provider-info">
+        <div class="provider-header">
+          <div class="provider-name">Aqua Plumbing</div>
+          <div class="provider-rating">
+            <i class="fas fa-star"></i> 4.8
+          </div>
+        </div>
+        <div class="provider-category">24/7 Plumbing Services</div>
+        <div class="provider-description">
+          Professional plumbing for leaks, repairs, bathroom fittings, and water heater installations. Emergency services available.
+        </div>
+        <div class="provider-footer">
+          <div class="provider-details">
+            <div class="provider-location">
+              <i class="fas fa-map-marker-alt"></i> 1.8 km away
+            </div>
+            <div class="provider-availability">
+              <i class="fas fa-clock"></i> Available now
+            </div>
+          </div>
+          <div class="provider-price">₹700/hr</div>
         </div>
       </div>
-      <div class="footer-column">
-        <h3>Services</h3>
-        <ul class="footer-links">
-          <li><a href="#">Electricians</a></li>
-          <li><a href="#">Plumbers</a></li>
-          <li><a href="#">Carpenters</a></li>
-          <li><a href="#">AC Repair</a></li>
-          <li><a href="#">Tutors</a></li>
-          <li><a href="#">Beauticians</a></li>
-        </ul>
+    </div>
+
+    <!-- Carpenter -->
+    <div class="provider-card" onclick="openProvider('woodcraft')">
+      <div class="provider-image" style="background-image: url('https://images.unsplash.com/photo-1600585152220-90363fe7e115?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+        <span class="provider-badge carpenter-badge">Carpenter</span>
+        <button class="favorite-btn active">
+          <i class="fas fa-heart"></i>
+        </button>
       </div>
-      <div class="footer-column">
-        <h3>Company</h3>
-        <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">How It Works</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Press</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3>Support</h3>
-        <ul class="footer-links">
-          <li><a href="#">Help Center</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">FAQs</a></li>
-        </ul>
+      <div class="provider-info">
+        <div class="provider-header">
+          <div class="provider-name">Woodcraft Carpentry</div>
+          <div class="provider-rating">
+            <i class="fas fa-star"></i> 4.7
+          </div>
+        </div>
+        <div class="provider-category">Custom Carpentry & Furniture</div>
+        <div class="provider-description">
+          Custom furniture, cabinet making, door installation, and all types of woodwork. Precision craftsmanship guaranteed.
+        </div>
+        <div class="provider-footer">
+          <div class="provider-details">
+            <div class="provider-location">
+              <i class="fas fa-map-marker-alt"></i> 3.2 km away
+            </div>
+            <div class="provider-availability">
+              <i class="fas fa-clock"></i> Available tomorrow
+            </div>
+          </div>
+          <div class="provider-price">₹600/hr</div>
+        </div>
       </div>
     </div>
-    <div class="copyright">
-      &copy; 2023 QuickFix Pro. All rights reserved.
+
+    <!-- AC Repair -->
+    <div class="provider-card" onclick="openProvider('coolbreeze')">
+      <div class="provider-image" style="background-image: url('https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+        <span class="provider-badge ac-repair-badge">AC Repair</span>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+      <div class="provider-info">
+        <div class="provider-header">
+          <div class="provider-name">CoolBreeze AC</div>
+          <div class="provider-rating">
+            <i class="fas fa-star"></i> 4.8
+          </div>
+        </div>
+        <div class="provider-category">HVAC & Air Conditioning</div>
+        <div class="provider-description">
+          AC installation, maintenance, and repair for all brands. Certified technicians with 10+ years experience.
+        </div>
+        <div class="provider-footer">
+          <div class="provider-details">
+            <div class="provider-location">
+              <i class="fas fa-map-marker-alt"></i> 4.1 km away
+            </div>
+            <div class="provider-availability">
+              <i class="fas fa-clock"></i> Available today
+            </div>
+          </div>
+          <div class="provider-price">₹900/hr</div>
+        </div>
+      </div>
     </div>
-  </footer>
+
+    <!-- Tutor -->
+    <div class="provider-card" onclick="openProvider('learnsmart')">
+      <div class="provider-image" style="background-image: url('https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+        <span class="provider-badge tutor-badge">Tutor</span>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+      <div class="provider-info">
+        <div class="provider-header">
+          <div class="provider-name">LearnSmart Tutors</div>
+          <div class="provider-rating">
+            <i class="fas fa-star"></i> 4.9
+          </div>
+        </div>
+        <div class="provider-category">Academic Tutoring</div>
+        <div class="provider-description">
+          Certified tutors for math, science, and languages. Personalized learning plans for K-12 and college students.
+        </div>
+        <div class="provider-footer">
+          <div class="provider-details">
+            <div class="provider-location">
+              <i class="fas fa-map-marker-alt"></i> 1.5 km away
+            </div>
+            <div class="provider-availability">
+              <i class="fas fa-clock"></i> Available now
+            </div>
+          </div>
+          <div class="provider-price">₹400/hr</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Beautician -->
+    <div class="provider-card" onclick="openProvider('glamour-studio')">
+      <div class="provider-image" style="background-image: url('https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+        <span class="provider-badge beautician-badge">Beautician</span>
+        <button class="favorite-btn">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+      <div class="provider-info">
+        <div class="provider-header">
+          <div class="provider-name">Glamour Studio</div>
+          <div class="provider-rating">
+            <i class="fas fa-star"></i> 4.7
+          </div>
+        </div>
+        <div class="provider-category">Beauty & Wellness</div>
+        <div class="provider-description">
+          Professional hair styling, makeup, facials, and skincare. Mobile services available for special occasions.
+        </div>
+        <div class="provider-footer">
+          <div class="provider-details">
+            <div class="provider-location">
+              <i class="fas fa-map-marker-alt"></i> 2.3 km away
+            </div>
+            <div class="provider-availability">
+              <i class="fas fa-clock"></i> Available today
+            </div>
+          </div>
+          <div class="provider-price">₹550/hr</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-item">
+        <span class="material-icons">home</span>
+        <span class="nav-label">Home</span>
+      </a>
+      <a href="service.html" class="nav-item active">
+        <span class="material-icons">build</span>
+        <span class="nav-label">Services</span>
+      </a>
+      <a href="provider.html" class="nav-item">
+        <span class="material-icons">business</span>
+        <span class="nav-label">Provider</span>
+      </a>
+      <a href="community.html" class="nav-item">
+        <span class="material-icons">groups</span>
+        <span class="nav-label">Community</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span class="material-icons">settings</span>
+        <span class="nav-label">Settings</span>
+      </a>
+    </nav>
+  </div>
 
   <script>
-    // Filter services
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const serviceCards = document.querySelectorAll('.service-card');
-    
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // Update active button
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        
-        const filter = button.dataset.filter;
-        
-        // Filter services
-        serviceCards.forEach(card => {
-          if (filter === 'all' || card.dataset.category === filter) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+    // Category selection
+    document.querySelectorAll('.category-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        console.log(`Category selected: ${this.textContent}`);
       });
     });
-    
-    // FAQ accordion
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-      const question = item.querySelector('.faq-question');
-      
-      question.addEventListener('click', () => {
-        // Close other items
-        faqItems.forEach(otherItem => {
-          if (otherItem !== item) {
-            otherItem.classList.remove('active');
-          }
-        });
-        
-        // Toggle current item
-        item.classList.toggle('active');
+
+    // Favorite toggle
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+        const icon = this.querySelector('i');
+        if (this.classList.contains('active')) {
+          icon.className = 'fas fa-heart';
+        } else {
+          icon.className = 'far fa-heart';
+        }
       });
     });
-    
-    // Set up service card click handlers
-    const serviceCtas = document.querySelectorAll('.service-cta');
-    
-    serviceCtas.forEach(cta => {
-      cta.addEventListener('click', () => {
-        const card = cta.closest('.service-card');
-        const service = card.querySelector('.service-title').textContent;
-        alert(`Redirecting to booking page for: ${service}`);
-        // In a real app, this would open the booking modal or page
+
+    // Bottom navigation
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+        console.log(`Navigation: ${this.querySelector('span').textContent}`);
       });
+    });
+
+    // Search functionality
+    const searchInput = document.querySelector('.search-bar input');
+    searchInput.addEventListener('input', function() {
+      console.log(`Searching for: ${this.value}`);
+      // In a real app, this would filter the providers
+    });
+
+    // Provider card click
+    function openProvider(providerId) {
+      console.log(`Opening provider: ${providerId}`);
+      // In a real app, this would navigate to the provider detail page
+    }
+
+    // Touch gestures for better mobile experience
+    let startY = 0;
+    let currentY = 0;
+    let pullToRefresh = false;
+
+    document.addEventListener('touchstart', function(e) {
+      startY = e.touches[0].pageY;
+    });
+
+    document.addEventListener('touchmove', function(e) {
+      currentY = e.touches[0].pageY;
+      if (currentY > startY + 100 && window.scrollY === 0) {
+        pullToRefresh = true;
+        console.log('Pull to refresh triggered');
+      }
+    });
+
+    document.addEventListener('touchend', function() {
+      if (pullToRefresh) {
+        // Simulate refresh
+        console.log('Refreshing content...');
+        pullToRefresh = false;
+      }
+    });
+
+    // Smooth scrolling for category pills
+    const categoryScroll = document.querySelector('.category-scroll');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    categoryScroll.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - categoryScroll.offsetLeft;
+      scrollLeft = categoryScroll.scrollLeft;
+    });
+
+    categoryScroll.addEventListener('mouseleave', () => {
+      isDown = false;
+    });
+
+    categoryScroll.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+
+    categoryScroll.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - categoryScroll.offsetLeft;
+      const walk = (x - startX) * 2;
+      categoryScroll.scrollLeft = scrollLeft - walk;
     });
   </script>
 </body>

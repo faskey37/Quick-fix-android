@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickFix Pro - Community</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --warning: #f72585;
+      --danger: #ef233c;
+      --gray: #6c757d;
+      --light-gray: #f5f5f5;
+      --border: #e0e0e0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f5f7ff;
+      color: var(--dark);
+      padding-bottom: 80px;
+    }
+    
+    /* Mobile Header */
+    .mobile-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .notification-btn {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .notification-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: var(--warning);
+      color: white;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .community-stats {
+      display: flex;
+      justify-content: space-around;
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 0.8rem;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    
+    .stat-label {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+    
+    /* Community Tabs */
+    .community-tabs {
+      background: white;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .tab-buttons {
+      display: flex;
+      background: var(--light-gray);
+      border-radius: 25px;
+      padding: 4px;
+      gap: 4px;
+    }
+    
+    .tab-btn {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      border: none;
+      background: transparent;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--gray);
+    }
+    
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-1px);
+    }
+    
+    /* Feed Section */
+    .feed-section {
+      padding: 1rem;
+    }
+    
+    .create-post {
+      background: white;
+      border-radius: 15px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .post-input-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .post-input {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      outline: none;
+      font-size: 0.9rem;
+    }
+    
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .post-options {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .post-option {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: var(--gray);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .post-option:hover {
+      color: var(--primary);
+    }
+    
+    .post-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 20px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .post-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    
+    /* Post Cards */
+    .post-card {
+      background: white;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .post-card:hover {
+      transform: translateY(-2px);
+    }
+    
+    .post-header {
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .post-user-info {
+      flex: 1;
+    }
+    
+    .post-username {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.2rem;
+    }
+    
+    .post-meta {
+      font-size: 0.8rem;
+      color: var(--gray);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .service-tag {
+      background: var(--primary);
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    
+    .post-content {
+      padding: 0 1rem 1rem;
+    }
+    
+    .post-text {
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .post-image {
+      width: 100%;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    
+    .post-engagement {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border-top: 1px solid var(--border);
+      background: #fafafa;
+    }
+    
+    .engagement-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+    
+    .engagement-actions {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .action-btn:hover,
+    .action-btn.liked {
+      color: var(--primary);
+      transform: scale(1.1);
+    }
+    
+    .action-btn.liked .fa-heart {
+      color: var(--warning);
+    }
+    
+    /* Categories Section */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+    }
+    
+    .category-card {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .category-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+      color: var(--primary);
+    }
+    
+    .category-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    
+    .category-count {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+    
+    /* Leaderboard */
+    .leaderboard-section {
+      padding: 1rem;
+    }
+    
+    .leaderboard-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .leaderboard-header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .leaderboard-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    
+    .leaderboard-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .leaderboard-list {
+      padding: 1rem;
+    }
+    
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .leaderboard-item:last-child {
+      border-bottom: none;
+    }
+    
+    .rank-badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 1rem;
+      color: white;
+      font-size: 0.85rem;
+    }
+    
+    .rank-1 { background: #ffd700; }
+    .rank-2 { background: #c0c0c0; }
+    .rank-3 { background: #cd7f32; }
+    .rank-other { background: var(--gray); }
+    
+    .leader-info {
+      flex: 1;
+    }
+    
+    .leader-name {
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    
+    .leader-specialty {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    
+    .leader-points {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    .nav-menu {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #666;
+      padding: 8px 12px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      min-width: 65px;
+      cursor: pointer;
+    }
+    
+    .nav-item:hover, 
+    .nav-item.active {
+      color: var(--primary);
+      background-color: rgba(67, 97, 238, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .nav-item .material-icons {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    .nav-label {
+      font-size: 11px;
+      font-weight: 500;
+    }
+    
+    /* Hide sections initially */
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 360px) {
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .tab-btn {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.8rem;
+      }
+      
+      .nav-item {
+        min-width: 50px;
+        padding: 6px 8px;
+      }
+      
+      .nav-item .material-icons {
+        font-size: 20px;
+      }
+      
+      .nav-label {
+        font-size: 10px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <div class="header-top">
+      <div class="header-title">
+        <i class="fas fa-users"></i>
+        Community
+      </div>
+      <button class="notification-btn">
+        <i class="fas fa-bell"></i>
+        <span class="notification-badge">3</span>
+      </button>
+    </div>
+    <div class="community-stats">
+      <div class="stat-item">
+        <div class="stat-number">2.5K</div>
+        <div class="stat-label">Members</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">156</div>
+        <div class="stat-label">Active Today</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">892</div>
+        <div class="stat-label">Posts</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Community Tabs -->
+  <section class="community-tabs">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="switchTab('feed')">Feed</button>
+      <button class="tab-btn" onclick="switchTab('discussions')">Discussions</button>
+      <button class="tab-btn" onclick="switchTab('leaderboard')">Top Contributors</button>
+    </div>
+  </section>
+
+  <!-- Feed Tab Content -->
+  <div id="feed" class="tab-content active">
+    <section class="feed-section">
+      <!-- Create Post -->
+      <div class="create-post">
+        <div class="post-input-row">
+          <div class="user-avatar">U</div>
+          <input type="text" class="post-input" placeholder="Share your experience or ask for help...">
+        </div>
+        <div class="post-actions">
+          <div class="post-options">
+            <div class="post-option">
+              <i class="fas fa-camera"></i>
+              <span>Photo</span>
+            </div>
+            <div class="post-option">
+              <i class="fas fa-star"></i>
+              <span>Review</span>
+            </div>
+            <div class="post-option">
+              <i class="fas fa-question-circle"></i>
+              <span>Question</span>
+            </div>
+          </div>
+          <button class="post-btn">Post</button>
+        </div>
+      </div>
+
+      <!-- Post 1 -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="user-avatar">P</div>
+          <div class="post-user-info">
+            <div class="post-username">Priya Sharma</div>
+            <div class="post-meta">
+              <span>2 hours ago</span>
+              <span class="service-tag">Electrician</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-content">
+          <div class="post-text">
+            Just had an amazing experience with John Electrics! He fixed my kitchen wiring issue in just 30 minutes. Professional, punctual, and reasonably priced. Highly recommend! 👍
+          </div>
+          <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=200&fit=crop');"></div>
+        </div>
+        <div class="post-engagement">
+          <div class="engagement-stats">
+            <span><i class="fas fa-heart"></i> 24 likes</span>
+            <span><i class="fas fa-comment"></i> 8 comments</span>
+          </div>
+          <div class="engagement-actions">
+            <button class="action-btn liked">
+              <i class="fas fa-heart"></i>
+            </button>
+            <button class="action-btn">
+              <i class="fas fa-comment"></i>
+            </button>
+            <button class="action-btn">
+              <i class="fas fa-share"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 2 -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="user-avatar">R</div>
+          <div class="post-user-info">
+            <div class="post-username">Rahul Gupta</div>
+            <div class="post-meta">
+              <span>4 hours ago</span>
+              <span class="service-tag">Plumber</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-content">
+          <div class="post-text">
+            Need urgent help! My bathroom tap is leaking badly. Can anyone recommend a good plumber available today? Location: Civil Lines area.
+          </div>
+        </div>
+        <div class="post-engagement">
+          <div class="engagement-stats">
+            <span><i class="fas fa-heart"></i> 12 likes</span>
+            <span><i class="fas fa-comment"></i> 15 comments</span>
+          </div>
+          <div class="engagement-actions">
+            <button class="action-btn">
+              <i class="fas fa-heart"></i>
+            </button>
+            <button class="action-btn">
+              <i class="fas fa-comment"></i>
+            </button>
+            <button class="action-btn">
+              <i class="fas fa-share"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 3 -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="user-avatar">A</div>
+          <div class="post-user-info">
+            <div class="post-username">Anita Patel</div>
+            <div class="post-meta">
+              <span>6 hours ago</span>
+              <span class="service-tag">Carpenter</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-content">
+          <div class="post-text">
+            Woodcraft Carpentry did an incredible job on my custom bookshelf! The attention to detail is amazing. Here's the before and after:
+          </div>
+          <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=200&fit=crop');"></div>
+        </div>
+        <div class="post-engagement">
+          <div class="engagement-stats">
+            <span><i class="fas fa-heart"></i> 31 likes</span>
+            <span><i class="fas fa-comment"></i> 12 comments</span>
+          </div>
+          <div class="engagement-actions">
+            <button class="action-btn">
+              <i class="fas fa-heart"></i>
+            </button>
+            <button class="action-btn">
+              <i class="fas fa-comment"></i>
+            </button>
+            <button class="action-btn">
+              <i class="fas fa-share"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Discussions Tab Content -->
+  <div id="discussions" class="tab-content">
+    <section class="categories-grid">
+      <div class="category-card">
+        <div class="category-icon">
+          <i class="fas fa-bolt electrician-color"></i>
+        </div>
+        <div class="category-title">Electrical Help</div>
+        <div class="category-count">124 discussions</div>
+      </div>
+      
+      <div class="category-card">
+        <div class="category-icon">
+          <i class="fas fa-faucet plumber-color"></i>
+        </div>
+        <div class="category-title">Plumbing Issues</div>
+        <div class="category-count">98 discussions</div>
+      </div>
+      
+      <div class="category-card">
+        <div class="category-icon">
+          <i class="fas fa-hammer carpenter-color"></i>
+        </div>
+        <div class="category-title">Carpentry</div>
+        <div class="category-count">76 discussions</div>
+      </div>
+      
+      <div class="category-card">
+        <div class="category-icon">
+          <i class="fas fa-fan ac-repair-color"></i>
+        </div>
+        <div class="category-title">AC & Cooling</div>
+        <div class="category-count">54 discussions</div>
+      </div>
+      
+      <div class="category-card">
+        <div class="category-icon">
+          <i class="fas fa-book tutor-color"></i>
+        </div>
+        <div class="category-title">Tutoring</div>
+        <div class="category-count">89 discussions</div>
+      </div>
+      
+      <div class="category-card">
+        <div class="category-icon">
+          <i class="fas fa-spa beautician-color"></i>
+        </div>
+        <div class="category-title">Beauty Services</div>
+        <div class="category-count">67 discussions</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Leaderboard Tab Content -->
+  <div id="leaderboard" class="tab-content">
+    <section class="leaderboard-section">
+      <div class="leaderboard-card">
+        <div class="leaderboard-header">
+          <div class="leaderboard-title">Top Contributors</div>
+          <div class="leaderboard-subtitle">Most helpful community members this month</div>
+        </div>
+        <div class="leaderboard-list">
+          <div class="leaderboard-item">
+            <div class="rank-badge rank-1">1</div>
+            <div class="leader-info">
+              <div class="leader-name">John Electrics</div>
+              <div class="leader-specialty">Electrical Services</div>
+            </div>
+            <div class="leader-points">1,250 pts</div>
+          </div>
+          
+          <div class="leaderboard-item">
+            <div class="rank-badge rank-2">2</div>
+            <div class="leader-info">
+              <div class="leader-name">Aqua Plumbing</div>
+              <div class="leader-specialty">Plumbing Services</div>
+            </div>
+            <div class="leader-points">980 pts</div>
+          </div>
+          
+          <div class="leaderboard-item">
+            <div class="rank-badge rank-3">3</div>
+            <div class="leader-info">
+              <div class="leader-name">Woodcraft Carpentry</div>
+              <div class="leader-specialty">Carpentry</div>
+            </div>
+            <div class="leader-points">875 pts</div>
+          </div>
+          
+          <div class="leaderboard-item">
+            <div class="rank-badge rank-other">4</div>
+            <div class="leader-info">
+              <div class="leader-name">Cool Tech AC</div>
+              <div class="leader-specialty">AC Repair</div>
+            </div>
+            <div class="leader-points">720 pts</div>
+          </div>
+          
+          <div class="leaderboard-item">
+            <div class="rank-badge rank-other">5</div>
+            <div class="leader-info">
+              <div class="leader-name">Beauty Express</div>
+              <div class="leader-specialty">Beauty Services</div>
+            </div>
+            <div class="leader-points">685 pts</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <nav class="nav-menu">
+      <a href="index.html" class="nav-item">
+        <span class="material-icons">home</span>
+        <span class="nav-label">Home</span>
+      </a>
+      <a href="service.html" class="nav-item">
+        <span class="material-icons">build</span>
+        <span class="nav-label">Services</span>
+      </a>
+      <a href="provider.html" class="nav-item">
+        <span class="material-icons">business</span>
+        <span class="nav-label">Provider</span>
+      </a>
+      <a href="community.html" class="nav-item active">
+        <span class="material-icons">groups</span>
+        <span class="nav-label">Community</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span class="material-icons">settings</span>
+        <span class="nav-label">Settings</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    // Tab switching functionality
+    function switchTab(tabName) {
+      // Remove active class from all tabs and buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // Add active class to clicked button
+      event.target.classList.add('active');
+      
+      // Show corresponding content
+      document.getElementById(tabName).classList.add('active');
+    }
+
+    // Like button functionality
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      if (btn.querySelector('.fa-heart')) {
+        btn.addEventListener('click', function() {
+          this.classList.toggle('liked');
+          // Add animation effect
+          this.style.transform = 'scale(1.2)';
+          setTimeout(() => {
+            this.style.transform = 'scale(1)';
+          }, 200);
+        });
+      }
+    });
+
+    // Category cards click effect
+    document.querySelectorAll('.category-card').forEach(card => {
+      card.addEventListener('click', function() {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = 'translateY(-3px)';
+        }, 150);
+      });
+    });
+
+    // Post creation animation
+    document.querySelector('.post-btn').addEventListener('click', function() {
+      this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+      setTimeout(() => {
+        this.innerHTML = 'Post';
+        // Add success feedback
+        const feedback = document.createElement('div');
+        feedback.innerHTML = '<i class="fas fa-check"></i> Posted successfully!';
+        feedback.style.cssText = 'position: fixed; top: 20px; right: 20px; background: var(--success); color: white; padding: 0.8rem 1rem; border-radius: 10px; z-index: 1001; animation: slideIn 0.3s ease;';
+        document.body.appendChild(feedback);
+        setTimeout(() => {
+          feedback.remove();
+        }, 3000);
+      }, 1500);
+    });
+
+   

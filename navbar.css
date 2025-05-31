@@ -1,0 +1,74 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #eee;
+  padding-bottom: 100px; /* space for the fixed navbar */
+}
+
+.container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 1000;
+  padding: 0 10px;
+}
+
+.menu {
+  display: flex;
+  height: 72px;
+  max-width: 370px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 1px 0 rgba(52, 42, 173, 0.25), 0 15px 30px 0 rgba(52, 42, 173, 0.1);
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  text-decoration: none;
+  color: rgba(52, 42, 173, 0.6);
+  transition: color 0.25s ease;
+}
+
+.menu-item:focus,
+.menu-item:hover {
+  outline: none;
+  color: #342ead;
+}
+
+.menu-item:focus .material-icons,
+.menu-item:hover .material-icons {
+  color: #342ead;
+}
+
+.material-icons {
+  font-family: "Material Icons Outlined";
+  display: block;
+  margin-bottom: 4px;
+  font-size: 26px;
+  color: rgba(52, 42, 173, 0.6);
+  transition: color 0.25s ease;
+}
+
+.menu-item-label {
+  font-size: 13px;
+  color: rgba(52, 42, 173, 0.7);
+  transition: color 0.25s ease;
+}
+
+.menu-item:focus .menu-item-label,
+.menu-item:hover .menu-item-label {
+  color: #342ead;
+}
