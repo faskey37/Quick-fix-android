@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuickFix Pro - Complete Service Booking Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-  
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
   <style>
     :root {
       --primary: #4361ee;
@@ -35,6 +32,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
     
     body {
@@ -42,10 +40,10 @@
       line-height: 1.6;
       background-color: #f5f7ff;
       color: var(--dark);
-      padding-bottom: 80px; /* Space for bottom nav */
+      padding-bottom: 80px;
     }
     
-    /* Mobile-First Header */
+    /* Mobile Header */
     .mobile-header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
@@ -112,7 +110,7 @@
       font-weight: bold;
     }
     
-    /* Hero Section - Mobile Optimized */
+    /* Hero Section */
     .hero {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
@@ -187,7 +185,7 @@
       color: #333;
     }
     
-    /* How It Works - Mobile Cards */
+    /* How It Works */
     .how-it-works {
       padding: 2rem 1rem;
       background: var(--light-gray);
@@ -248,7 +246,7 @@
       line-height: 1.5;
     }
     
-    /* Top Providers - Mobile Cards */
+    /* Top Providers */
     .providers {
       padding: 2rem 1rem;
       background: white;
@@ -458,13 +456,296 @@
       font-size: 0.8rem;
     }
     
-    /* Color Classes */
-    .electrician-color { color: #f39c12; }
-    .plumber-color { color: #3498db; }
-    .carpenter-color { color: #8e44ad; }
-    .ac-repair-color { color: #16a085; }
-    .tutor-color { color: #2ecc71; }
-    .beautician-color { color: #e91e63; }
+    /* Booking Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 1rem;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .booking-modal {
+      background: white;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.active .booking-modal {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 10;
+    }
+    
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+    }
+    
+    .modal-body {
+      padding: 1.5rem;
+    }
+    
+    .booking-steps {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+      overflow-x: auto;
+    }
+    
+    .step-tab {
+      padding: 0.8rem 1rem;
+      font-weight: 500;
+      color: var(--gray);
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    
+    .step-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    
+    .booking-form {
+      display: none;
+    }
+    
+    .booking-form.active {
+      display: block;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    
+    .time-slot {
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .time-slot:hover {
+      border-color: var(--accent);
+    }
+    
+    .time-slot.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .payment-methods {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    
+    .payment-method {
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .payment-method:hover {
+      border-color: var(--accent);
+    }
+    
+    .payment-method.selected {
+      border-color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+    }
+    
+    .payment-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      position: sticky;
+      bottom: 0;
+      background: white;
+    }
+    
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(67, 97, 238, 0.1);
+    }
+    
+    /* Confirmation Step */
+    .confirmation-details {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .detail-row {
+      display: flex;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    
+    .detail-label {
+      font-weight: 500;
+      width: 120px;
+      color: var(--gray);
+    }
+    
+    .detail-value {
+      flex: 1;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    
+    .nav-menu {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #666;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      min-width: 60px;
+    }
+    
+    .nav-item:hover, 
+    .nav-item.active {
+      color: var(--primary);
+      background-color: rgba(67, 97, 238, 0.1);
+    }
+    
+    .nav-item .material-icons {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    .nav-label {
+      font-size: 12px;
+      font-weight: 500;
+    }
     
     /* Loader */
     .loader-container {
@@ -515,200 +796,200 @@
       }
     }
     
-    /* Hide scrollbars but keep functionality */
-    .testimonials-slider::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .testimonials-slider {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    /* FIXED BOTTOM NAVIGATION */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      border-top: 1px solid #e0e0e0;
-    }
-    
-    .nav-menu {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 12px 0;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #666;
-      padding: 8px 12px;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      min-width: 65px;
-      cursor: pointer;
-    }
-    
-    .nav-item:hover, 
-    .nav-item.active {
-      color: var(--primary);
-      background-color: rgba(67, 97, 238, 0.1);
-      transform: translateY(-2px);
-    }
-    
-    .nav-item .material-icons {
-      font-size: 24px;
-      margin-bottom: 4px;
-    }
-    
-    .nav-label {
-      font-size: 11px;
-      font-weight: 500;
-    }
-    
     /* Responsive adjustments */
-    @media (max-width: 360px) {
-      .quick-access {
-        grid-template-columns: repeat(2, 1fr);
+    @media (min-width: 400px) {
+      .payment-methods {
+        grid-template-columns: 1fr 1fr;
       }
-      
+    }
+    
+    @media (min-width: 500px) {
       .features-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(4, 1fr);
       }
       
-      .nav-item {
-        min-width: 50px;
-        padding: 6px 8px;
-      }
-      
-      .nav-item .material-icons {
-        font-size: 20px;
-      }
-      
-      .nav-label {
-        font-size: 10px;
+      .payment-methods {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
-    
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    
-    .nav-menu {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 8px 0;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #666;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      min-width: 60px;
-    }
-    
-    .nav-item:hover, .nav-item.active {
-      color: var(--primary);
-      background-color: #f8f9fa;
-    }
-    
-    .nav-item .material-icons {
-      font-size: 24px;
-      margin-bottom: 4px;
-    }
-    
-    .nav-label {
-      font-size: 12px;
-      font-weight: 500;
-    }
-.loader-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:var(--light);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Lower than navbar's z-index (1000) */
-    transition: opacity 0.5s ease;
-  }
-  
-  .loader {
-    text-align: center;
-  }
-  
-  .loader-container.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  /* Keep all your existing loader animations exactly as they are */
-  /* From Uiverse.io by preshpi */ 
-.spinner {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  animation: spinner-plncf9 3s infinite;
+
+    /* User Profile Dropdown Styles */
+.user-profile {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
 }
 
-.spinner::before,
-.spinner::after {
-  content: "";
-  grid-area: 1/1;
-  border: 3px solid;
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+  min-height: 44px; /* Ensures consistent height */
+  box-sizing: border-box;
+}
+
+.profile-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-1px);
+}
+
+.profile-img {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border-color: #474bff #474bff #0000 #0000;
-  mix-blend-mode: darken;
-  animation: spinner-plncf9 1s infinite linear;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.3);
+  flex-shrink: 0; /* Prevents image from shrinking */
+  display: block;
 }
 
-.spinner::after {
-  border-color: #0000 #0000 #dbdcef #dbdcef;
-  animation-direction: reverse;
+.profile-name {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 1;
 }
 
-@keyframes spinner-plncf9 {
-  100% {
-    transform: rotate(1turn);
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 280px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.profile-dropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-header {
+  display: flex;
+  padding: 20px 15px;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #eee;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.dropdown-header .profile-img {
+  width: 50px;
+  height: 50px;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.dropdown-user-info {
+  flex: 1;
+  min-width: 0; /* Allows text to truncate if needed */
+}
+
+.dropdown-user-info h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+}
+
+.dropdown-user-info p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #777;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-menu {
+  padding: 8px 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.dropdown-item i {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-item:hover {
+  background: #f8f9fa;
+  color: var(--primary, #007bff);
+  border-left-color: var(--primary, #007bff);
+  padding-left: 18px;
+}
+
+.dropdown-item:hover i {
+  color: var(--primary, #007bff);
+  transform: scale(1.1);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #eee, transparent);
+  margin: 8px 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .profile-dropdown {
+    width: 260px;
+    right: -10px;
+  }
+  
+  .profile-name {
+    display: none; /* Hide name on very small screens */
+  }
+  
+  .profile-btn {
+    padding: 8px;
+    min-width: 44px;
   }
 }
   </style>
 </head>
 <body>
-   <!-- Replace your existing loader with this code -->
-<div class="loader-container" id="loader">
-  <div class="loader">
-    <!-- From Uiverse.io by preshpi --> 
-<div class="spinner"></div>
+  <!-- Loader -->
+  <div class="loader-container" id="loader">
+    <div class="spinner"></div>
   </div>
-</div>
+
   <!-- Mobile Header -->
   <header class="mobile-header">
     <div class="header-top">
@@ -716,9 +997,6 @@
         <i class="fas fa-map-marker-alt"></i>
         <span>Nagpur, Maharashtra</span>
       </div>
-      <button class="profile-btn">
-        <i class="fas fa-user"></i>
-      </button>
     </div>
     <div class="search-container">
       <div class="search-bar">
@@ -743,27 +1021,27 @@
 
     <div class="quick-access">
       <div class="access-item" onclick="openBookingModal('Electrician')">
-        <div class="access-icon electrician-color"><i class="fas fa-bolt"></i></div>
+        <div class="access-icon" style="color: var(--electrician);"><i class="fas fa-bolt"></i></div>
         <div class="access-label">Electrician</div>
       </div>
       <div class="access-item" onclick="openBookingModal('Plumber')">
-        <div class="access-icon plumber-color"><i class="fas fa-faucet"></i></div>
+        <div class="access-icon" style="color: var(--plumber);"><i class="fas fa-faucet"></i></div>
         <div class="access-label">Plumber</div>
       </div>
       <div class="access-item" onclick="openBookingModal('Carpenter')">
-        <div class="access-icon carpenter-color"><i class="fas fa-hammer"></i></div>
+        <div class="access-icon" style="color: var(--carpenter);"><i class="fas fa-hammer"></i></div>
         <div class="access-label">Carpenter</div>
       </div>
       <div class="access-item" onclick="openBookingModal('AC Repair')">
-        <div class="access-icon ac-repair-color"><i class="fas fa-fan"></i></div>
+        <div class="access-icon" style="color: var(--ac-repair);"><i class="fas fa-fan"></i></div>
         <div class="access-label">AC Repair</div>
       </div>
       <div class="access-item" onclick="openBookingModal('Tutor')">
-        <div class="access-icon tutor-color"><i class="fas fa-book"></i></div>
+        <div class="access-icon" style="color: var(--tutor);"><i class="fas fa-book"></i></div>
         <div class="access-label">Tutor</div>
       </div>
       <div class="access-item" onclick="openBookingModal('Beautician')">
-        <div class="access-icon beautician-color"><i class="fas fa-spa"></i></div>
+        <div class="access-icon" style="color: var(--beautician);"><i class="fas fa-spa"></i></div>
         <div class="access-label">Beautician</div>
       </div>
     </div>
@@ -1001,45 +1279,544 @@
             <h4>Anita Patel</h4>
             <div class="author-rating">
               <i class="fas fa-star"></i>
-              
-              <!-- Bottom Navigation -->
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="booking-modal">
+      <div class="modal-header">
+        <div class="modal-title">Book Service</div>
+        <button class="close-modal" onclick="closeBookingModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="booking-steps">
+          <div class="step-tab active" data-step="details">1. Details</div>
+          <div class="step-tab" data-step="schedule">2. Schedule</div>
+          <div class="step-tab" data-step="payment">3. Payment</div>
+          <div class="step-tab" data-step="confirm">4. Confirm</div>
+        </div>
+        
+        <!-- Service Details Step -->
+        <div class="booking-form active" id="detailsForm">
+          <div class="form-group">
+            <label for="serviceType">Service Type</label>
+            <input type="text" id="serviceType" class="form-control" readonly>
+          </div>
+          <div class="form-group">
+            <label for="providerName">Service Provider</label>
+            <input type="text" id="providerName" class="form-control" readonly>
+          </div>
+          <div class="form-group">
+            <label for="serviceDescription">Service Description</label>
+            <textarea id="serviceDescription" class="form-control" rows="3" placeholder="Describe the service you need in detail"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeBookingModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="nextStep('schedule')">Next</button>
+          </div>
+        </div>
+        
+        <!-- Schedule Step -->
+        <div class="booking-form" id="scheduleForm">
+          <div class="form-group">
+            <label for="bookingDate">Date</label>
+            <input type="date" id="bookingDate" class="form-control" min="">
+          </div>
+          <div class="form-group">
+            <label for="bookingTime">Time Slot</label>
+            <div class="time-slots">
+              <div class="time-slot">9:00 AM</div>
+              <div class="time-slot">10:00 AM</div>
+              <div class="time-slot">11:00 AM</div>
+              <div class="time-slot">12:00 PM</div>
+              <div class="time-slot">1:00 PM</div>
+              <div class="time-slot">2:00 PM</div>
+              <div class="time-slot">3:00 PM</div>
+              <div class="time-slot">4:00 PM</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="customerName">Your Name</label>
+            <input type="text" id="customerName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="customerPhone">Phone Number</label>
+            <input type="tel" id="customerPhone" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="serviceAddress">Service Address</label>
+            <input type="text" id="serviceAddress" class="form-control" required>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" onclick="prevStep('details')">Back</button>
+            <button class="btn btn-primary" onclick="nextStep('payment')">Next</button>
+          </div>
+        </div>
+        
+        <!-- Payment Step -->
+        <div class="booking-form" id="paymentForm">
+          <div class="form-group">
+            <label>Payment Method</label>
+            <div class="payment-methods">
+              <div class="payment-method" onclick="selectPayment('card')">
+                <div class="payment-icon">
+                  <i class="far fa-credit-card"></i>
+                </div>
+                <div>Credit/Debit Card</div>
+              </div>
+              <div class="payment-method" onclick="selectPayment('paypal')">
+                <div class="payment-icon">
+                  <i class="fab fa-paypal"></i>
+                </div>
+                <div>PayPal</div>
+              </div>
+              <div class="payment-method" onclick="selectPayment('cash')">
+                <div class="payment-icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div>Cash on Service</div>
+              </div>
+            </div>
+          </div>
+          <div id="cardDetails" style="display: none;">
+            <div class="form-group">
+              <label for="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456">
+            </div>
+            <div class="form-group">
+              <label for="cardName">Name on Card</label>
+              <input type="text" id="cardName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="expiryDate">Expiry Date</label>
+              <input type="text" id="expiryDate" class="form-control" placeholder="MM/YY">
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" class="form-control" placeholder="123">
+            </div>
+          </div>
+          <div id="paypalDetails" style="display: none;">
+            <p>You will be redirected to PayPal to complete your payment</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" onclick="prevStep('schedule')">Back</button>
+            <button class="btn btn-primary" onclick="nextStep('confirm')">Next</button>
+          </div>
+        </div>
+        
+        <!-- Confirmation Step -->
+        <div class="booking-form" id="confirmForm">
+          <div class="confirmation-details">
+            <div class="detail-row">
+              <div class="detail-label">Service:</div>
+              <div class="detail-value" id="confirmService">Electrician</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Provider:</div>
+              <div class="detail-value" id="confirmProvider">John Electrics</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Date & Time:</div>
+              <div class="detail-value" id="confirmDateTime">June 15, 2023 at 10:00 AM</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Address:</div>
+              <div class="detail-value" id="confirmAddress">123 Main St, Apt 4B, New York, NY 10001</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Payment Method:</div>
+              <div class="detail-value" id="confirmPayment">Credit Card ending in 4242</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Total Amount:</div>
+              <div class="detail-value" id="confirmAmount">₹85.00</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="termsAgree"> I agree to the Terms of Service and Privacy Policy
+            </label>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" onclick="prevStep('payment')">Back</button>
+            <button class="btn btn-primary" onclick="confirmBooking()">Confirm Booking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <nav class="nav-menu">
-      <a href="index.html" class="nav-item">
+      <a href="index.html" class="nav-item active">
         <span class="material-icons">home</span>
         <span class="nav-label">Home</span>
       </a>
-      <a href="service.html" class="nav-item active">
+      <a href="services.html" class="nav-item">
         <span class="material-icons">build</span>
         <span class="nav-label">Services</span>
       </a>
-      <a href="provider.html" class="nav-item">
+      <a href="providers.html" class="nav-item">
         <span class="material-icons">business</span>
-        <span class="nav-label">Provider</span>
+        <span class="nav-label">Providers</span>
       </a>
-      <a href="community.html" class="nav-item">
-        <span class="material-icons">groups</span>
-        <span class="nav-label">Community</span>
+      <a href="bookings.html" class="nav-item">
+        <span class="material-icons">calendar_today</span>
+        <span class="nav-label">Bookings</span>
       </a>
-      <a href="#" class="nav-item">
-        <span class="material-icons">settings</span>
-        <span class="nav-label">Settings</span>
+      <a href="profile.html" class="nav-item">
+        <span class="material-icons">person</span>
+        <span class="nav-label">Profile</span>
       </a>
     </nav>
   </div>
-  <script> // Update your loader script to this:
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      const loader = document.getElementById('loader');
-      if (loader) {
+
+  <script>
+
+    // Main application functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize all components
+  initLoader();
+  initDateInput();
+  initTimeSlots();
+  initUserProfile();
+  initBookingModal();
+});
+
+// Loader functionality
+function initLoader() {
+  const loader = document.getElementById('loader');
+  
+  if (loader) {
+    // Hide loader when page is fully loaded
+    window.addEventListener('load', function() {
+      setTimeout(function() {
         loader.classList.add('hidden');
-        
-        // Remove loader from DOM after animation completes
         setTimeout(function() {
-          loader.remove();
+          if (loader.parentNode) {
+            loader.remove();
+          }
         }, 500);
+      }, 1000);
+    });
+  }
+}
+
+// Date input initialization
+function initDateInput() {
+  const dateInput = document.getElementById('bookingDate');
+  if (dateInput) {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    dateInput.min = `${yyyy}-${mm}-${dd}`;
+  }
+}
+
+// Time slot selection
+function initTimeSlots() {
+  document.querySelectorAll('.time-slot').forEach(slot => {
+    slot.addEventListener('click', function() {
+      document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+}
+
+// User Profile functionality
+function initUserProfile() {
+  // User data (in a real app, this would come from your authentication system)
+  const user = {
+    name: "John Doe",
+    email: "john@example.com",
+    profilePic: "https://randomuser.me/api/portraits/men/1.jpg"
+  };
+
+  // Check if profile already exists to avoid duplicates
+  const existingProfile = document.querySelector('.user-profile');
+  if (existingProfile) {
+    existingProfile.remove();
+  }
+
+  // Create profile dropdown HTML
+  const profileBtn = document.createElement('div');
+  profileBtn.className = 'user-profile';
+  profileBtn.innerHTML = `
+    <button class="profile-btn">
+      <img src="${user.profilePic}" alt="Profile" class="profile-img">
+      <span class="profile-name">${user.name.split(' ')[0]}</span>
+    </button>
+    <div class="profile-dropdown">
+      <div class="dropdown-header">
+        <img src="${user.profilePic}" alt="Profile" class="profile-img">
+        <div class="dropdown-user-info">
+          <h4>${user.name}</h4>
+          <p>${user.email}</p>
+        </div>
+      </div>
+      <div class="dropdown-menu">
+        <a href="profile.html" class="dropdown-item">
+          <i class="fas fa-user"></i> My Profile
+        </a>
+        <a href="bookings.html" class="dropdown-item">
+          <i class="fas fa-calendar-alt"></i> My Bookings
+        </a>
+        <a href="settings.html" class="dropdown-item">
+          <i class="fas fa-cog"></i> Settings
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item" id="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </div>
+  `;
+
+  // Insert the profile button into the header
+  const headerTop = document.querySelector('.header-top');
+  if (headerTop) {
+    headerTop.appendChild(profileBtn);
+    setupProfileEvents(user);
+  }
+}
+
+function setupProfileEvents(user) {
+  // Toggle dropdown
+  const dropdownBtn = document.querySelector('.user-profile .profile-btn');
+  const dropdownMenu = document.querySelector('.profile-dropdown');
+
+  if (dropdownBtn && dropdownMenu) {
+    dropdownBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.user-profile')) {
+        dropdownMenu.classList.remove('active');
       }
-    }, 1000); // Adjust timing as needed
-  });</script>
+    });
+
+    // Logout functionality
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // In a real app, you would call your logout API here
+        alert('Logging out...');
+        // Then redirect to login page
+        window.location.href = 'login.html';
+      });
+    }
+  }
+}
+
+// Initialize booking modal
+function initBookingModal() {
+  const bookingModal = document.getElementById('bookingModal');
+  if (bookingModal) {
+    // Close modal when clicking outside
+    bookingModal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeBookingModal();
+      }
+    });
+  }
+}
+
+// Booking modal functions
+window.openBookingModal = function(service, provider = 'Any Available Provider') {
+  const modal = document.getElementById('bookingModal');
+  if (!modal) return;
+
+  const serviceType = document.getElementById('serviceType');
+  const providerName = document.getElementById('providerName');
+  const confirmService = document.getElementById('confirmService');
+  const confirmProvider = document.getElementById('confirmProvider');
+
+  if (serviceType) serviceType.value = service;
+  if (providerName) providerName.value = provider;
+  if (confirmService) confirmService.textContent = service;
+  if (confirmProvider) confirmProvider.textContent = provider;
+  
+  // Reset form steps
+  document.querySelectorAll('.booking-form').forEach(form => form.classList.remove('active'));
+  document.querySelectorAll('.step-tab').forEach(tab => tab.classList.remove('active'));
+  
+  const detailsForm = document.getElementById('detailsForm');
+  const detailsTab = document.querySelector('.step-tab[data-step="details"]');
+  
+  if (detailsForm) detailsForm.classList.add('active');
+  if (detailsTab) detailsTab.classList.add('active');
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeBookingModal = function() {
+  const modal = document.getElementById('bookingModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+};
+
+// Step navigation
+window.nextStep = function(step) {
+  const activeTab = document.querySelector('.step-tab.active');
+  const nextTab = document.querySelector(`.step-tab[data-step="${step}"]`);
+  const activeForm = document.querySelector('.booking-form.active');
+  const nextForm = document.getElementById(`${step}Form`);
+
+  if (activeTab) activeTab.classList.remove('active');
+  if (nextTab) nextTab.classList.add('active');
+  
+  if (activeForm) activeForm.classList.remove('active');
+  if (nextForm) nextForm.classList.add('active');
+  
+  // Update confirmation details
+  if (step === 'confirm') {
+    updateConfirmationDetails();
+  }
+};
+
+window.prevStep = function(step) {
+  const activeTab = document.querySelector('.step-tab.active');
+  const prevTab = document.querySelector(`.step-tab[data-step="${step}"]`);
+  const activeForm = document.querySelector('.booking-form.active');
+  const prevForm = document.getElementById(`${step}Form`);
+
+  if (activeTab) activeTab.classList.remove('active');
+  if (prevTab) prevTab.classList.add('active');
+  
+  if (activeForm) activeForm.classList.remove('active');
+  if (prevForm) prevForm.classList.add('active');
+};
+
+function updateConfirmationDetails() {
+  const date = document.getElementById('bookingDate')?.value;
+  const timeSlot = document.querySelector('.time-slot.selected');
+  const time = timeSlot ? timeSlot.textContent : 'Not selected';
+  const address = document.getElementById('serviceAddress')?.value;
+  const paymentMethodEl = document.querySelector('.payment-method.selected');
+  const paymentMethod = paymentMethodEl ? paymentMethodEl.textContent : 'Not selected';
+  const confirmDateTime = document.getElementById('confirmDateTime');
+  const confirmAddress = document.getElementById('confirmAddress');
+  const confirmPayment = document.getElementById('confirmPayment');
+  const confirmAmount = document.getElementById('confirmAmount');
+  const serviceType = document.getElementById('serviceType')?.value;
+  
+  if (date && confirmDateTime) {
+    try {
+      const formattedDate = new Date(date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      confirmDateTime.textContent = `${formattedDate} at ${time}`;
+    } catch (e) {
+      confirmDateTime.textContent = `${date} at ${time}`;
+    }
+  }
+  
+  if (address && confirmAddress) {
+    confirmAddress.textContent = address;
+  }
+  
+  if (confirmPayment) {
+    confirmPayment.textContent = paymentMethod;
+  }
+  
+  if (serviceType && confirmAmount) {
+    // Set a random price for demo
+    const prices = {
+      'Electrician': '₹85.00',
+      'Plumber': '₹95.00',
+      'Carpenter': '₹75.00',
+      'AC Repair': '₹120.00',
+      'Tutor': '₹50.00',
+      'Beautician': '₹65.00'
+    };
+    confirmAmount.textContent = prices[serviceType] || '₹85.00';
+  }
+}
+
+// Confirm booking
+window.confirmBooking = function() {
+  const termsAgree = document.getElementById('termsAgree');
+  if (termsAgree && !termsAgree.checked) {
+    alert('Please agree to the Terms of Service and Privacy Policy');
+    return;
+  }
+  
+  const timeSlot = document.querySelector('.time-slot.selected');
+  const paymentMethodEl = document.querySelector('.payment-method.selected');
+  
+  const booking = {
+    service: document.getElementById('serviceType')?.value || '',
+    provider: document.getElementById('providerName')?.value || '',
+    date: document.getElementById('bookingDate')?.value || '',
+    time: timeSlot ? timeSlot.textContent : '',
+    customerName: document.getElementById('customerName')?.value || '',
+    customerPhone: document.getElementById('customerPhone')?.value || '',
+    address: document.getElementById('serviceAddress')?.value || '',
+    paymentMethod: paymentMethodEl ? paymentMethodEl.textContent : '',
+    description: document.getElementById('serviceDescription')?.value || '',
+    status: 'Pending',
+    bookingId: 'QF' + Math.floor(Math.random() * 1000000),
+    timestamp: new Date().toISOString()
+  };
+  
+  // In a real app, you would send this to your backend
+  console.log('Booking confirmed:', booking);
+  
+  // Store booking data in memory (removed localStorage)
+  if (window.bookingsData) {
+    window.bookingsData.push(booking);
+  } else {
+    window.bookingsData = [booking];
+  }
+  
+  // Show confirmation
+  alert(`Booking confirmed!\n\nService: ${booking.service}\nBooking ID: ${booking.bookingId}\n\nWe'll contact you shortly to confirm details.`);
+  
+  // Close modal
+  closeBookingModal();
+};
+
+// Payment method selection
+window.selectPayment = function(method, event) {
+  if (!event || !event.currentTarget) return;
+  
+  document.querySelectorAll('.payment-method').forEach(p => p.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  
+  const cardDetails = document.getElementById('cardDetails');
+  const paypalDetails = document.getElementById('paypalDetails');
+  
+  if (cardDetails) cardDetails.style.display = 'none';
+  if (paypalDetails) paypalDetails.style.display = 'none';
+  
+  if (method === 'card' && cardDetails) {
+    cardDetails.style.display = 'block';
+  } else if (method === 'paypal' && paypalDetails) {
+    paypalDetails.style.display = 'block';
+  }
+};
+  </script>
 </body>
 </html>
