@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - QuickFix</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
@@ -32,6 +32,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: var(--dark);
+            padding-bottom: 70px; /* Added for bottom nav */
         }
 
         .container {
@@ -243,6 +244,7 @@
             border-radius: 20px;
             box-shadow: var(--shadow-lg);
             overflow: hidden;
+            margin-bottom: 20px; /* Added space for bottom nav */
         }
 
         .content-section {
@@ -292,6 +294,16 @@
             background: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+            transform: translateY(-2px);
         }
 
         .form-grid {
@@ -344,7 +356,7 @@
 
         .booking-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 15px;
         }
@@ -385,6 +397,11 @@
             color: var(--danger);
         }
 
+        .status-inprogress {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
         .booking-details {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -403,6 +420,12 @@
         .detail-item i {
             color: var(--primary);
             font-size: 16px;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .settings-group {
@@ -462,6 +485,148 @@
             left: 26px;
         }
 
+        /* New Features */
+        .rating-stars {
+            color: var(--warning);
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            width: 75%; /* Example value */
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--light);
+            color: var(--primary);
+            margin-left: 10px;
+        }
+
+        .badge-premium {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+        }
+
+        .badge-new {
+            background: var(--success);
+            color: white;
+        }
+
+        .service-history {
+            margin-top: 30px;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .history-details {
+            flex: 1;
+        }
+
+        .history-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .history-date {
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .nav-menu {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            min-width: 60px;
+        }
+        
+        .nav-item:hover, 
+        .nav-item.active {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+        
+        .nav-item .material-icons {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Responsive fixes */
         @media (max-width: 1024px) {
             .profile-layout {
                 grid-template-columns: 1fr;
@@ -491,54 +656,16 @@
             .booking-details {
                 grid-template-columns: 1fr;
             }
+
+            .booking-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
-        /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    
-    .nav-menu {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 10px 0;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #666;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      min-width: 60px;
-    }
-    
-    .nav-item:hover, 
-    .nav-item.active {
-      color: var(--primary);
-      background-color: rgba(67, 97, 238, 0.1);
-    }
-    
-    .nav-item .material-icons {
-      font-size: 24px;
-      margin-bottom: 4px;
-    }
-    
-    .nav-label {
-      font-size: 12px;
-      font-weight: 500;
-    }
     </style>
 </head>
 <body>
@@ -553,6 +680,7 @@
                     <p>Manage your account and preferences</p>
                 </div>
             </div>
+            <div class="badge badge-premium">PREMIUM</div>
         </header>
 
         <div class="profile-layout">
@@ -565,8 +693,16 @@
                         </button>
                     </div>
                     <div class="profile-info">
-                        <h2>John Doe</h2>
+                        <h2>John Doe <span class="badge badge-new">NEW</span></h2>
                         <p>john@example.com</p>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.8)</span>
+                        </div>
                     </div>
                 </div>
 
@@ -576,8 +712,8 @@
                         <span class="stat-label">Bookings</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">4.8</span>
-                        <span class="stat-label">Rating</span>
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Providers</span>
                     </div>
                     <div class="stat">
                         <span class="stat-number">2</span>
@@ -585,10 +721,21 @@
                     </div>
                 </div>
 
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Profile Completion</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+
                 <nav>
                     <ul class="profile-nav">
                         <li><a href="#" class="nav-link active" data-section="personal"><i class="fas fa-user"></i> Personal Info</a></li>
                         <li><a href="#" class="nav-link" data-section="bookings"><i class="fas fa-calendar-alt"></i> My Bookings</a></li>
+                        <li><a href="#" class="nav-link" data-section="history"><i class="fas fa-history"></i> Service History</a></li>
                         <li><a href="#" class="nav-link" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
                         <li><a href="#" class="nav-link" data-section="security"><i class="fas fa-shield-alt"></i> Security</a></li>
                         <li><a href="#" class="nav-link" data-section="payments"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
@@ -601,7 +748,7 @@
                 <section class="content-section active" id="personal">
                     <div class="section-header">
                         <h2 class="section-title">Personal Information</h2>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" id="editProfileBtn">
                             <i class="fas fa-edit"></i> Edit Profile
                         </button>
                     </div>
@@ -630,6 +777,28 @@
                         <div class="form-group">
                             <label class="form-label">City</label>
                             <input type="text" class="form-input" value="Nagpur" readonly>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3 class="settings-title">Preferences</h3>
+                        <div class="setting-item">
+                            <div>
+                                <strong>Preferred Language</strong>
+                                <p>Select your preferred app language</p>
+                            </div>
+                            <select class="form-input" style="width: auto; padding: 8px 12px;">
+                                <option>English</option>
+                                <option>Hindi</option>
+                                <option>Marathi</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <strong>Preferred Service Types</strong>
+                                <p>Select services you use most often</p>
+                            </div>
+                            <button class="btn btn-secondary">Edit</button>
                         </div>
                     </div>
                 </section>
@@ -669,6 +838,14 @@
                                 <span>₹850.00</span>
                             </div>
                         </div>
+                        <div class="booking-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Rebook
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-star"></i> Rate Service
+                            </button>
+                        </div>
                     </div>
 
                     <div class="booking-card">
@@ -696,6 +873,57 @@
                                 <i class="fas fa-rupee-sign"></i>
                                 <span>₹950.00</span>
                             </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-edit"></i> Reschedule
+                            </button>
+                            <button class="btn btn-danger">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Service History Section -->
+                <section class="content-section" id="history">
+                    <div class="section-header">
+                        <h2 class="section-title">Service History</h2>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download"></i> Export History
+                        </button>
+                    </div>
+
+                    <div class="service-history">
+                        <div class="history-item">
+                            <div class="history-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-title">Electrical Wiring Repair</div>
+                                <div class="history-date">Completed on March 15, 2025</div>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-icon">
+                                <i class="fas fa-faucet"></i>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-title">Kitchen Sink Installation</div>
+                                <div class="history-date">Completed on February 28, 2025</div>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-icon">
+                                <i class="fas fa-paint-roller"></i>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-title">House Painting</div>
+                                <div class="history-date">Completed on January 10, 2025</div>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
                         </div>
                     </div>
                 </section>
@@ -819,85 +1047,158 @@
                             <button class="btn btn-primary">Edit</button>
                         </div>
                     </div>
+
+                    <div class="settings-group">
+                        <h3 class="settings-title">Billing History</h3>
+                        <div class="history-item">
+                            <div class="history-icon">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-title">Electrician Service - March 15</div>
+                                <div class="history-date">₹850.00 - Paid with Visa</div>
+                            </div>
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-icon">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-title">Plumbing Service - February 28</div>
+                                <div class="history-date">₹950.00 - Paid with PayPal</div>
+                            </div>
+                            <i class="fas fa-download"></i>
+                        </div>
+                    </div>
                 </section>
             </main>
         </div>
     </div>
-<!-- Bottom Navigation -->
-  <div class="bottom-nav">
-    <nav class="nav-menu">
-      <a href="index.html" class="nav-item active">
-        <span class="material-icons">home</span>
-        <span class="nav-label">Home</span>
-      </a>
-      <a href="service.html" class="nav-item">
-        <span class="material-icons">build</span>
-        <span class="nav-label">Services</span>
-      </a>
-      <a href="provider.html" class="nav-item">
-        <span class="material-icons">business</span>
-        <span class="nav-label">Providers</span>
-      </a>
-      <a href="community.html" class="nav-item">
-        <span class="material-icons">groups</span>
-        <span class="nav-label">community</span>
-      </a>
-      <a href="settings.html" class="nav-item">
-        <span class="material-icons">person</span>
-        <span class="nav-label">profile</span>
-      </a>
-    </nav>
-  </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-item">
+                <span class="material-icons">home</span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="service.html" class="nav-item">
+                <span class="material-icons">build</span>
+                <span class="nav-label">Services</span>
+            </a>
+            <a href="provider.html" class="nav-item">
+                <span class="material-icons">business</span>
+                <span class="nav-label">Providers</span>
+            </a>
+            <a href="community.html" class="nav-item">
+                <span class="material-icons">groups</span>
+                <span class="nav-label">Community</span>
+            </a>
+            <a href="settings.html" class="nav-item active">
+                <span class="material-icons">person</span>
+                <span class="nav-label">Profile</span>
+            </a>
+        </nav>
+    </div>
+
     <script>
         // Navigation functionality
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all links and sections
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-                
-                // Add active class to clicked link
-                this.classList.add('active');
-                
-                // Show corresponding section
-                const sectionId = this.dataset.section;
-                document.getElementById(sectionId).classList.add('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.dataset.section;
+                    document.getElementById(sectionId).classList.add('active');
+                });
             });
-        });
 
-        // Toggle switches
-        document.querySelectorAll('.toggle-switch').forEach(toggle => {
-            toggle.addEventListener('click', function() {
-                this.classList.toggle('active');
+            // Toggle switches
+            document.querySelectorAll('.toggle-switch').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    // In a real app, you would save this preference
+                });
             });
-        });
 
-        // Avatar edit functionality
-        document.querySelector('.avatar-edit').addEventListener('click', function() {
-            // In a real app, this would open a file picker
-            alert('Avatar upload functionality would be implemented here');
-        });
+            // Avatar edit functionality
+            document.querySelector('.avatar-edit').addEventListener('click', function() {
+                // In a real app, this would open a file picker
+                alert('Avatar upload functionality would be implemented here');
+            });
 
-        // Edit profile functionality
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.btn') && e.target.textContent.includes('Edit Profile')) {
-                const inputs = document.querySelectorAll('#personal .form-input');
-                const button = e.target.closest('.btn');
-                
-                if (button.textContent.includes('Edit Profile')) {
-                    // Enable editing
-                    inputs.forEach(input => input.removeAttribute('readonly'));
-                    button.innerHTML = '<i class="fas fa-save"></i> Save Changes';
-                } else {
-                    // Save changes
-                    inputs.forEach(input => input.setAttribute('readonly', ''));
-                    button.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
-                    alert('Profile updated successfully!');
-                }
+            // Edit profile functionality
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            if (editProfileBtn) {
+                editProfileBtn.addEventListener('click', function() {
+                    const inputs = document.querySelectorAll('#personal .form-input');
+                    const isEditing = !inputs[0].hasAttribute('readonly');
+                    
+                    if (isEditing) {
+                        // Save changes
+                        inputs.forEach(input => input.setAttribute('readonly', ''));
+                        this.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
+                        alert('Profile updated successfully!');
+                    } else {
+                        // Enable editing
+                        inputs.forEach(input => input.removeAttribute('readonly'));
+                        this.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                    }
+                });
             }
+
+            // Bottom nav active state
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.bottom-nav .nav-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Initialize the page
+            initProfilePage();
         });
+
+        function initProfilePage() {
+            // In a real app, you would load user data here
+            console.log('Profile page initialized');
+            
+            // Example: Load bookings from localStorage
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            console.log('User bookings:', bookings);
+            
+            // Example: Set up event listeners for booking actions
+            document.querySelectorAll('.booking-actions .btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.textContent.trim();
+                    const bookingCard = this.closest('.booking-card');
+                    const bookingId = bookingCard.querySelector('.booking-id').textContent;
+                    
+                    console.log(`${action} for booking ${bookingId}`);
+                    
+                    // In a real app, you would handle the action here
+                    if (action.includes('Rate')) {
+                        alert(`Rating service for booking ${bookingId}`);
+                    } else if (action.includes('Cancel')) {
+                        if (confirm('Are you sure you want to cancel this booking?')) {
+                            bookingCard.style.opacity = '0.5';
+                            bookingCard.querySelector('.booking-status').textContent = 'Cancelled';
+                            bookingCard.querySelector('.booking-status').className = 'booking-status status-cancelled';
+                        }
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
